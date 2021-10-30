@@ -1,0 +1,25 @@
+﻿@model List<Duty>
+
+<table class="table table-hover table-bordered table-sm mt-3">
+    <thead>
+        <tr>
+            <td>Başlık</td>
+            <td>İçerik</td>
+            <td>Süresi</td>
+            <td>Durumu</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model)
+        {
+            <tr>
+                <td>@task.Title</td>
+                <td>@task.Content</td>
+                <td>@task.EndDate.ToShortDateString()</td>
+                <td>
+                    <getStatusInfo duty-id="@task.Id"></getStatusInfo>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

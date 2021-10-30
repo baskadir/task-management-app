@@ -1,0 +1,22 @@
+﻿@model UserLoginModel
+
+<div class="row mt-5">
+    <form asp-action="Login" asp-controller="Account" class="p-4 w-75 mx-auto shadow">
+        <div class="mb-3">
+            <label>Kullanıcı Adı: </label>
+            <span class="text-danger" asp-validation-for="Username"></span>
+            <input asp-for="Username" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label>Şifre : </label>
+            <span class="text-danger" asp-validation-for="Password"></span>
+            <input type="password" asp-for="Password" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Giriş Yap</button>
+        </div>
+        <div class="text-danger mt-2" asp-validation-summary="ModelOnly">
+
+        </div>
+    </form>
+</div>

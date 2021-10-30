@@ -1,0 +1,36 @@
+﻿@model List<Duty>
+
+<a asp-action="CreateDuty" asp-controller="Manager" class="btn btn-success my-2">Yeni Görev Oluştur</a>
+<div class="row mt-3">
+    <table class="table table-hover table-bordered table-sm">
+        <thead>
+            <tr>
+                <th>Başlık</th>
+                <th>İçerik</th>
+                <th>Önem Durumu</th>
+                <th>Aciliyet Durumu</th>
+                <th>Son Teslim Tarihi</th>
+                <th>İlgili Kişi</th>
+                <th>Durumu</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in Model)
+            {
+                <tr>
+                    <td>@task.Title</td>
+                    <td>@task.Content</td>
+                    <td>@(task.IsImportant?"Acil":"Acil Değil")</td>
+                    <td>@(task.IsUrgent?"Önemli":"Önemli Değil")</td>
+                    <td>@task.EndDate.ToShortDateString()</td>
+                    <td>
+                        <getPersonelInfo duty-id="@task.Id"></getPersonelInfo>
+                    </td>
+                    <td>
+                        <getStatusInfo duty-id="@task.Id"></getStatusInfo>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

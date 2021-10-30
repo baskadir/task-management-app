@@ -1,0 +1,169 @@
+﻿@model List<Duty>
+
+<div class="row my-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                Hemen Yap
+            </div>
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>İçerik</th>
+                        <th>Bitirme Süresi</th>
+                        <th>Durumu</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (item.IsImportant && item.IsUrgent && !item.IsCompleted)
+                        {
+                            <tr>
+                                <td>@item.Title</td>
+                                <td>@item.Content</td>
+                                <td>@item.EndDate.ToShortDateString()</td>
+                                <td>
+                                    <getStatusInfo duty-id="@item.Id"></getStatusInfo>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary complete-task" name="@item.Id">Tamamla</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-warning text-white">
+                Ne zaman yapılacağını planla
+            </div>
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>İçerik</th>
+                        <th>Bitirme Süresi</th>
+                        <th>Durumu</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (item.IsImportant && !item.IsUrgent && !item.IsCompleted)
+                        {
+                            <tr>
+                                <td>@item.Title</td>
+                                <td>@item.Content</td>
+                                <td>@item.EndDate.ToShortDateString()</td>
+                                <td>
+                                    <getStatusInfo duty-id="@item.Id"></getStatusInfo>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary complete-task" name="@item.Id">Tamamla</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                Daha Sonra Yap
+            </div>
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>İçerik</th>
+                        <th>Bitirme Süresi</th>
+                        <th>Durumu</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (!item.IsImportant && item.IsUrgent && !item.IsCompleted)
+                        {
+                            <tr>
+                                <td>@item.Title</td>
+                                <td>@item.Content</td>
+                                <td>@item.EndDate.ToShortDateString()</td>
+                                <td>
+                                    <getStatusInfo duty-id="@item.Id"></getStatusInfo>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary complete-task" name="@item.Id">Tamamla</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                İşi devret
+            </div>
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>İçerik</th>
+                        <th>Bitirme Süresi</th>
+                        <th>Durumu</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (!item.IsImportant && !item.IsUrgent && !item.IsCompleted)
+                        {
+                            <tr>
+                                <td>@item.Title</td>
+                                <td>@item.Content</td>
+                                <td>@item.EndDate.ToShortDateString()</td>
+                                <td>
+                                    <getStatusInfo duty-id="@item.Id"></getStatusInfo>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary complete-task" name="@item.Id">Tamamla</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(".complete-task").click(function () {
+            var id = this.getAttribute("name")
+            $.ajax({
+                url: "/Personel/CompleteDuty/" + id,
+                type: "POST",
+                success: function (res) {
+                    console.log(res);
+                    if (res == "ok")
+                        window.location.href = "/Personel/Index";
+                }
+            })
+        })
+    </script>
+}

@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="p-2 bg-dark text-white">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a asp-action="Index" asp-controller="Home" class="nav-link px-2 text-white">Anasayfa</a></li>
+                    @if (User != null && User.IsInRole("Manager"))
+                    {
+                        <li><a asp-action="Index" asp-controller="Manager" class="nav-link px-2 text-white">Görevler</a></li>
+                    }
+                    else if (User != null && User.IsInRole("Personel"))
+                    {
+                        <li><a asp-action="Index" asp-controller="Personel" asp-route-userName="@User.Identity.Name" class="nav-link px-2 text-white">Görevler</a></li>
+                        <li><a asp-action="GetCompletedDuties" asp-controller="Personel" class="nav-link px-2 text-white">Tamamlanmış görevler</a></li>
+                    }
+                </ul>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="text-end">
+                        <a asp-action="Logout" asp-controller="Account" class="btn btn-outline-danger me-2">Çıkış Yap</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-end">
+                        <a asp-action="Login" asp-controller="Account" class="btn btn-outline-light me-2">Giriş Yap</a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="min-height:100vh;">
+        @RenderBody()
+    </div>
+
+    <script src="~/jquery/jquery.min.js"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>

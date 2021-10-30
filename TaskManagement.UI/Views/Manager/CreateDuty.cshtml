@@ -1,0 +1,59 @@
+﻿@model Duty
+
+
+<div class="row mt-5">
+    <form asp-action="CreateDuty" asp-controller="Manager" class="p-4 w-75 mx-auto">
+        <div class="mb-3">
+            <label>Başlık : </label>
+            <input asp-for="Title" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label>İçerik : </label>
+            <input asp-for="Content" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label>Son Teslim Tarihi : </label>
+            <input asp-for="EndDate" type="date" class="form-control" />
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" asp-for="IsImportant">
+            <label class="form-check-label" for="IsImportant">
+                Önemli
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" asp-for="IsUrgent">
+            <label class="form-check-label" for="IsUrgent">
+                Acil
+            </label>
+        </div>
+        <div class="mb-3">
+            <select class="form-select" id="personelInfo" asp-for="AppUserId">
+                <option selected>Atanacak kişiyi seçin</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Giriş Yap</button>
+        </div>
+    </form>
+</div>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            getPersonelInfo();
+        });
+
+        function getPersonelInfo() {
+            $.ajax({
+                url: "/Manager/GetAllPersonelsJson",
+                type: "GET",
+                success: function (response) {
+                    console.log(response);
+                    response.map((item) => {
+                        $("#personelInfo").append('<option value="' + item.id + '">' + item.firstName + ' ' + item.lastName + '</option>')
+                    });
+                }
+            });
+        }
+    </script>
+}
